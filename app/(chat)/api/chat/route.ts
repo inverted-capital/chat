@@ -54,6 +54,7 @@ export async function POST(request: Request) {
     modelId,
   }: { id: string; messages: Array<Message>; modelId: string } =
     await request.json();
+  // TODO client side should not set chat id
 
   const session = await auth();
 
@@ -77,6 +78,7 @@ export async function POST(request: Request) {
   const chat = await getChatById({ id });
 
   if (!chat) {
+    // TODO title generation should be detached not awaited to avoid lag
     const title = await generateTitleFromUserMessage({ message: userMessage });
     await saveChat({ id, userId: session.user.id, title });
   }

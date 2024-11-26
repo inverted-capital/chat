@@ -877,14 +877,18 @@ export const GearIcon = ({ size = 16 }: { size?: number }) => {
   );
 };
 
-export const DreamcatcherIcon = ({ size = 16 }: { size?: number }) => {
+export const DreamcatcherIcon = ({
+  size = 16,
+  opacity = 1,
+}: { size?: number; opacity?: number }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
-      enable-background="new 0 0 512 512"
+      enableBackground="new 0 0 512 512"
       viewBox="0 0 512 512"
+      style={{ opacity }}
     >
       <path
         fill="#98b5de"
