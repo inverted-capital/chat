@@ -15,7 +15,7 @@ export const Overview = () => {
     >
       <div className="rounded-xl p-6 flex flex-col gap-8 leading-relaxed text-center max-w-xl">
         <p className="flex flex-row justify-center gap-4 items-center">
-          <DreamcatcherIcon size={128} />
+          <DreamcatcherIcon size={128} opacity={0.5} />
         </p>
         <p>
           Welcome to the Dreamcatcher Platform, an open-source, decentralized
