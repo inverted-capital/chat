@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "RAYON_NUM_THREADS=32 next dev --turbo --hostname localhost",
     "build": "tsx lib/db/migrate && next build",
     "start": "next start",
     "lint": "next lint && biome lint --write --unsafe",
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "1.0.0-canary.3",
+    "@geist-ui/icons": "^1.0.2",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
