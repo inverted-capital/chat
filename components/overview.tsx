@@ -24,16 +24,16 @@ export const Overview = () => {
             contributors
           </Link>{' '}
           create and share value through natural language applications. This AI
-          assistant helps you navigate the platform's capabilities, from
+          assistant helps you navigate the platform&apos;s capabilities, from
           discovering NApps to understanding decentralized income flows.
         </p>
         <p>
-          Whether you're a developer, service provider, or potential user, the
-          Dreamcatcher enables you to participate in a unified ecosystem where
-          value is fairly attributed and rewarded through automated systems.
-          Explore how you can contribute, collaborate, and benefit from this
-          innovative platform designed for the future of decentralized value
-          creation.
+          Whether you&apos;re a developer, service provider, or potential user,
+          the Dreamcatcher enables you to participate in a unified ecosystem
+          where value is fairly attributed and rewarded through automated
+          systems. Explore how you can contribute, collaborate, and benefit from
+          this innovative platform designed for the future of decentralized
+          value creation.
         </p>
       </div>
     </motion.div>
