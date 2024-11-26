@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "RAYON_NUM_THREADS=32 next dev --turbo --hostname localhost",
+    "dev": "next dev --turbo --hostname localhost",
     "build": "tsx lib/db/migrate && next build",
     "start": "next start",
     "lint": "next lint && biome lint --write --unsafe",
