@@ -59,6 +59,7 @@ export async function POST(request: Request) {
   const session = await auth();
 
   if (!session || !session.user || !session.user.id) {
+    // TODO auth check should be done in middleware
     return new Response('Unauthorized', { status: 401 });
   }
 
