@@ -120,7 +120,6 @@ export function DocumentToolCall({
           {`${getActionText(type, 'present')} ${args.title ? `"${args.title}"` : ''}`}
         </div>
       </div>
-
       <div className="animate-spin mt-1">{<LoaderIcon />}</div>
     </button>
   );

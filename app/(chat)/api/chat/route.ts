@@ -28,6 +28,7 @@ import {
 } from '@/lib/utils';
 
 import { generateTitleFromUserMessage } from '../../actions';
+import { track } from '@vercel/analytics';
 
 export const maxDuration = 60;
 
@@ -92,6 +93,7 @@ export async function POST(request: Request) {
 
   const streamingData = new StreamData();
 
+  const start = Date.now();
   const result = await streamText({
     model: customModel(model.apiIdentifier),
     system: systemPrompt,
@@ -360,7 +362,9 @@ export async function POST(request: Request) {
           console.error('Failed to save chat');
         }
       }
-
+      track('chat_completed', {
+        duration: Date.now() - start,
+      });
       streamingData.close();
     },
     experimental_telemetry: {
