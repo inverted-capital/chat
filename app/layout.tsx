@@ -8,9 +8,10 @@ import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://chat.vercel.ai'),
-  title: 'Next.js Chatbot Template',
-  description: 'Next.js chatbot template using the AI SDK.',
+  metadataBase: new URL('https://dreamcatcher.ai'),
+  title: 'Dreamcatcher AI',
+  description:
+    'An open-source, decentralized ecosystem where contributors create and share value through natural language applications.',
 };
 
 export const viewport = {

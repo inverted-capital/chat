@@ -1,6 +1,13 @@
+/**
+ * This this component should be able to do:
+ * - have the mic on, press send, and then keep talking to have the next input
+ *   begin to be filled in by the transcription
+ */
+
 'use client';
 
 import 'regenerator-runtime/runtime';
+import { track } from '@vercel/analytics';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { MicIcon } from 'lucide-react';
@@ -74,6 +81,7 @@ export function Voice({ input, onTranscription }: VoiceProps) {
 
   const startAudioRecording = async () => {
     if (navigator.mediaDevices?.getUserMedia) {
+      track('voice_recording_started');
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
       });
@@ -84,6 +92,7 @@ export function Voice({ input, onTranscription }: VoiceProps) {
         audioChunksRef.current.push(e.data);
       };
     } else {
+      track('voice_unsupported');
       console.error('getUserMedia is not supported on your browser!');
     }
   };
