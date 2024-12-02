@@ -2,6 +2,8 @@
  * This this component should be able to do:
  * - have the mic on, press send, and then keep talking to have the next input
  *   begin to be filled in by the transcription
+ * - use the local speech to detect activity, and only then open up a connection
+ *   to deepgram to do high quality realtime transcription, possibly in batches
  */
 
 'use client';
@@ -32,6 +34,8 @@ export function Voice({ input, onTranscription }: VoiceProps) {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
 
+  const [lastProcessedTranscript, setLastProcessedTranscript] = useState('');
+
   useEffect(() => {
     if (isRecording) {
       setInitialInput(input);
@@ -39,12 +43,18 @@ export function Voice({ input, onTranscription }: VoiceProps) {
   }, [isRecording]);
 
   useEffect(() => {
-    if (isRecording) {
-      // Update the last transcript time whenever a new transcript arrives
+    if (isRecording && transcript !== lastProcessedTranscript) {
       lastTranscriptTimeRef.current = new Date();
       onTranscription(`${initialInput} ${transcript}`);
+      setLastProcessedTranscript(transcript);
     }
-  }, [transcript, isRecording, onTranscription, initialInput]);
+  }, [
+    transcript,
+    isRecording,
+    onTranscription,
+    initialInput,
+    lastProcessedTranscript,
+  ]);
 
   useEffect(() => {
     if (isRecording) {
@@ -57,27 +67,24 @@ export function Voice({ input, onTranscription }: VoiceProps) {
     }
   }, [isRecording, resetTranscript]);
 
-  // Effect to monitor silence periods
   // useEffect(() => {
   //   let silenceInterval: NodeJS.Timeout;
   //   if (isRecording) {
   //     silenceInterval = setInterval(() => {
-  //       if (lastTranscriptTimeRef.current) {
+  //       if (lastTranscriptTimeRef.current && transcript.trim().length > 0) {
   //         const now = new Date();
   //         const diff = now.getTime() - lastTranscriptTimeRef.current.getTime();
-  //         if (diff > 2000) {
-  //           // 2 seconds of silence detected
+  //         if (diff >= 2000) {
   //           stopAudioRecording();
   //           sendAudioToTranscribe();
-  //           // Reset for the next recording session
   //           startAudioRecording();
   //           lastTranscriptTimeRef.current = null;
   //         }
   //       }
-  //     }, 1000); // Check every second
+  //     }, 1000);
   //   }
   //   return () => clearInterval(silenceInterval);
-  // }, [isRecording]);
+  // }, [isRecording, transcript]);
 
   const startAudioRecording = async () => {
     if (navigator.mediaDevices?.getUserMedia) {

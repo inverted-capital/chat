@@ -28,7 +28,7 @@ import {
 } from '@/lib/utils';
 
 import { generateTitleFromUserMessage } from '../../actions';
-import { track } from '@vercel/analytics';
+import { track } from '@vercel/analytics/server';
 
 export const maxDuration = 60;
 

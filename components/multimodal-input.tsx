@@ -125,6 +125,7 @@ export function MultimodalInput({
   const submitForm = useCallback(() => {
     window.history.replaceState({}, '', `/chat/${chatId}`);
 
+    console.log('Chat submit:\n', input);
     handleSubmit(undefined, {
       experimental_attachments: attachments,
     });
@@ -136,6 +137,7 @@ export function MultimodalInput({
       textareaRef.current?.focus();
     }
   }, [
+    input,
     attachments,
     handleSubmit,
     setAttachments,
