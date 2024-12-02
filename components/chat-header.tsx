@@ -8,6 +8,7 @@ import { SidebarToggle } from '@/components/sidebar-toggle';
 import { Button } from '@/components/ui/button';
 import { BetterTooltip } from '@/components/ui/tooltip';
 import { PlusIcon } from './icons';
+import { Settings2 as Settings } from 'lucide-react';
 import { useSidebar } from './ui/sidebar';
 
 export function ChatHeader({ selectedModelId }: { selectedModelId: string }) {
@@ -38,6 +39,18 @@ export function ChatHeader({ selectedModelId }: { selectedModelId: string }) {
         selectedModelId={selectedModelId}
         className="order-1 md:order-2"
       />
+      <BetterTooltip content="Open Chat Controls">
+        <Button
+          variant="outline"
+          className="order-3 md:order-3 md:px-2 px-2 md:h-fit ml-auto"
+          onClick={() => {
+            // Implement the logic to show the document editor/stateboard/artifact area
+          }}
+        >
+          <Settings />
+          <span className="md:sr-only">Document Editor</span>
+        </Button>
+      </BetterTooltip>
     </header>
   );
 }

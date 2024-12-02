@@ -1,5 +1,6 @@
 export { default as Tool } from '@geist-ui/icons/tool';
 export { default as MicIcon } from '@geist-ui/icons/mic';
+export { default as SearchIcon } from '@geist-ui/icons/search';
 
 export const BotIcon = () => {
   return (
