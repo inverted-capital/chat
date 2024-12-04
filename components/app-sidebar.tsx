@@ -17,10 +17,10 @@ import {
   SidebarMenu,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { BetterTooltip } from '@/components/ui/tooltip';
 import { Search } from 'lucide-react';
 
 import Link from 'next/link';
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter();
@@ -43,52 +43,48 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               </span>
             </Link>
             <div className="flex flex-row gap-0">
-              <BetterTooltip content="Search Chats" align="start">
-                <Button
-                  variant="ghost"
-                  type="button"
-                  className="p-2 h-fit"
-                  onClick={() => {
-                    setOpenMobile(false);
-                    router.push('/');
-                    router.refresh();
-                  }}
-                >
-                  <Search />
-                </Button>
-              </BetterTooltip>
-              <BetterTooltip content="New Chat" align="start">
-                <Button
-                  variant="ghost"
-                  type="button"
-                  className="p-2 h-fit"
-                  onClick={() => {
-                    setOpenMobile(false);
-                    router.push('/');
-                    router.refresh();
-                  }}
-                >
-                  <PlusIcon />
-                </Button>
-              </BetterTooltip>
+              <Tooltip align="start">
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    type="button"
+                    className="p-2 h-fit"
+                    onClick={() => {
+                      setOpenMobile(false);
+                      router.push('/');
+                      router.refresh();
+                    }}
+                  >
+                    <Search />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent align="start">Search Chats</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    type="button"
+                    className="p-2 h-fit"
+                    onClick={() => {
+                      setOpenMobile(false);
+                      router.push('/');
+                      router.refresh();
+                    }}
+                  >
+                    <PlusIcon />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent align="end">New Chat</TooltipContent>
+              </Tooltip>
             </div>
           </div>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup className="-mx-2">
-          <SidebarHistory user={user} />
-        </SidebarGroup>
+        <SidebarHistory user={user} />
       </SidebarContent>
-      <SidebarFooter className="gap-0 -mx-2">
-        {user && (
-          <SidebarGroup>
-            <SidebarGroupContent>
-              <SidebarUserNav user={user} />
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
-      </SidebarFooter>
+      <SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter>
     </Sidebar>
   );
 }
