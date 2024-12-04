@@ -8,12 +8,13 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { models } from '@/lib/ai/models';
 import { cn } from '@/lib/utils';
 
-import { CheckCirclFillIcon, ChevronDownIcon } from './icons';
+import { SettingsIcon, CheckCirclFillIcon, ChevronDownIcon } from './icons';
 
 export function ModelSelector({
   selectedModelId,
@@ -72,6 +73,26 @@ export function ModelSelector({
             </div>
           </DropdownMenuItem>
         ))}
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem
+          className="gap-4 flex flex-row justify-between items-center mt-2 pt-2 border-t border-border bg-secondary hover:bg-secondary/80 hover:text-secondary-foreground active:bg-secondary/60"
+          onSelect={() => {
+            setOpen(false);
+            // TODO: Implement your chat configuration logic here
+          }}
+        >
+          <div className="flex flex-col gap-1 items-start">
+            <span>Configure Chat Models</span>
+            <div className="text-xs text-muted-foreground">
+              Modify available models and their settings
+            </div>
+          </div>
+          <div>
+            <SettingsIcon />
+          </div>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

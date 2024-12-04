@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo --hostname localhost",
+    "dev": "NODE_OPTIONS='--inspect' next dev --turbo --hostname localhost",
     "build": "tsx lib/db/migrate && next build",
     "start": "next start",
     "lint": "next lint && biome lint --write --unsafe",
@@ -51,7 +51,7 @@
     "html-to-image": "^1.11.11",
     "lucide-react": "^0.446.0",
     "nanoid": "^5.0.8",
-    "next": "15.0.3-canary.2",
+    "next": "15.0.3",
     "next-auth": "5.0.0-beta.25",
     "next-themes": "^0.3.0",
     "openai": "^4.75.0",

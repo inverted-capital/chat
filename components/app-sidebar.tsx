@@ -56,7 +56,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                     <Search />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent align="start">Search Chats</TooltipContent>
+                <TooltipContent align="end">Search Chats</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
