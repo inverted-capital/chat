@@ -6,7 +6,7 @@ import { useCopyToClipboard } from 'usehooks-ts';
 import type { Vote } from '@/lib/db/schema';
 import { getMessageIdFromAnnotations } from '@/lib/utils';
 
-import { CopyIcon, ThumbDownIcon, ThumbUpIcon } from './icons';
+import { CopyIcon, ThumbUpIcon, Tool } from './icons';
 import { Button } from './ui/button';
 import {
   Tooltip,
@@ -126,7 +126,7 @@ export function MessageActions({
                 });
 
                 toast.promise(downvote, {
-                  loading: 'Downvoting Response...',
+                  loading: 'Fix Response...',
                   success: () => {
                     mutate<Array<Vote>>(
                       `/api/vote?chatId=${chatId}`,
@@ -149,16 +149,16 @@ export function MessageActions({
                       { revalidate: false },
                     );
 
-                    return 'Downvoted Response!';
+                    return 'Fixing has begun...';
                   },
-                  error: 'Failed to downvote response.',
+                  error: 'Failed to create fix request.',
                 });
               }}
             >
-              <ThumbDownIcon />
+              <Tool strokeWidth={2} />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Downvote Response</TooltipContent>
+          <TooltipContent>Fix Response</TooltipContent>
         </Tooltip>
       </div>
     </TooltipProvider>

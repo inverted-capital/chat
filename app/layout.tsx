@@ -1,3 +1,5 @@
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 import { Toaster } from 'sonner';
 
@@ -6,9 +8,10 @@ import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://chat.vercel.ai'),
-  title: 'Next.js Chatbot Template',
-  description: 'Next.js chatbot template using the AI SDK.',
+  metadataBase: new URL('https://dreamcatcher.ai'),
+  title: 'Dreamcatcher AI',
+  description:
+    'An open-source, decentralized ecosystem where contributors create and share value through natural language applications.',
 };
 
 export const viewport = {
@@ -66,6 +69,8 @@ export default async function RootLayout({
           <Toaster position="top-center" />
           {children}
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

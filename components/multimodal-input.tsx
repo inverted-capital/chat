@@ -24,20 +24,21 @@ import { useLocalStorage, useWindowSize } from 'usehooks-ts';
 import { sanitizeUIMessages } from '@/lib/utils';
 
 import { ArrowUpIcon, PaperclipIcon, StopIcon } from './icons';
+import { Voice } from './voice';
 import { PreviewAttachment } from './preview-attachment';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 
 const suggestedActions = [
   {
-    title: 'What is the weather',
-    label: 'in San Francisco?',
-    action: 'What is the weather in San Francisco?',
+    title: 'Show customers',
+    label: 'due for collection tomorrow',
+    action: 'Show customers due for collection tomorrow',
   },
   {
-    title: 'Help me draft an essay',
-    label: 'about Silicon Valley',
-    action: 'Help me draft a short essay about Silicon Valley',
+    title: 'Search for customers',
+    label: 'except inactive',
+    action: 'Search for customers except those that are inactive',
   },
 ];
 
@@ -124,6 +125,7 @@ export function MultimodalInput({
   const submitForm = useCallback(() => {
     window.history.replaceState({}, '', `/chat/${chatId}`);
 
+    console.log('Chat submit:\n', input);
     handleSubmit(undefined, {
       experimental_attachments: attachments,
     });
@@ -135,6 +137,7 @@ export function MultimodalInput({
       textareaRef.current?.focus();
     }
   }, [
+    input,
     attachments,
     handleSubmit,
     setAttachments,
@@ -321,6 +324,13 @@ export function MultimodalInput({
       >
         <PaperclipIcon size={14} />
       </Button>
+      <Voice
+        input={input}
+        onTranscription={(text) => {
+          setInput(text);
+          adjustHeight();
+        }}
+      />
     </div>
   );
 }

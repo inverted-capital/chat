@@ -28,6 +28,7 @@ import {
 } from '@/lib/utils';
 
 import { generateTitleFromUserMessage } from '../../actions';
+import { track } from '@vercel/analytics/server';
 
 export const maxDuration = 60;
 
@@ -54,10 +55,12 @@ export async function POST(request: Request) {
     modelId,
   }: { id: string; messages: Array<Message>; modelId: string } =
     await request.json();
+  // TODO client side should not set chat id
 
   const session = await auth();
 
   if (!session || !session.user || !session.user.id) {
+    // TODO auth check should be done in middleware
     return new Response('Unauthorized', { status: 401 });
   }
 
@@ -77,6 +80,7 @@ export async function POST(request: Request) {
   const chat = await getChatById({ id });
 
   if (!chat) {
+    // TODO title generation should be detached not awaited to avoid lag
     const title = await generateTitleFromUserMessage({ message: userMessage });
     await saveChat({ id, userId: session.user.id, title });
   }
@@ -89,6 +93,7 @@ export async function POST(request: Request) {
 
   const streamingData = new StreamData();
 
+  const start = Date.now();
   const result = await streamText({
     model: customModel(model.apiIdentifier),
     system: systemPrompt,
@@ -357,7 +362,9 @@ export async function POST(request: Request) {
           console.error('Failed to save chat');
         }
       }
-
+      track('chat_completed', {
+        duration: Date.now() - start,
+      });
       streamingData.close();
     },
     experimental_telemetry: {
