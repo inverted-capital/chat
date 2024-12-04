@@ -41,7 +41,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               </span>
             </Link>
             <div className="flex flex-row gap-0">
-              <Tooltip align="start">
+              <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
                     variant="ghost"
