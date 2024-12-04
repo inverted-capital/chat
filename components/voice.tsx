@@ -40,7 +40,7 @@ export function Voice({ input, onTranscription }: VoiceProps) {
     if (isRecording) {
       setInitialInput(input);
     }
-  }, [isRecording]);
+  }, [isRecording, input]);
 
   useEffect(() => {
     if (isRecording && transcript !== lastProcessedTranscript) {

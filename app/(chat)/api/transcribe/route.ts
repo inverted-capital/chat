@@ -1,6 +1,6 @@
 import { assert } from 'node:console';
 import { auth } from '@/app/(auth)/auth';
-import OpenAI from 'openai';
+import { OpenAI } from 'openai';
 
 const apiKey = process.env.OPENAI_API_KEY;
 if (!apiKey) {

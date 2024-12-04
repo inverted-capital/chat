@@ -53,10 +53,10 @@ function PureChatHeader({ selectedModelId }: { selectedModelId: string }) {
             }}
           >
             <Settings />
-            <span className="md:sr-only">Document Editor</span>
+            <span className="md:sr-only">Open Chat Controls</span>
           </Button>
         </TooltipTrigger>
-        <TooltipContent>Document Editor</TooltipContent>
+        <TooltipContent>Open Chat Controls</TooltipContent>
       </Tooltip>
     </header>
   );
