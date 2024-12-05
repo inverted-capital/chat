@@ -43,6 +43,7 @@ export function Chat({
     onFinish: () => {
       mutate('/api/history');
     },
+    experimental_throttle: 50,
   });
 
   const { width: windowWidth = 1920, height: windowHeight = 1080 } =

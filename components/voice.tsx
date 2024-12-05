@@ -36,10 +36,12 @@ export function Voice({ input, onTranscription }: VoiceProps) {
 
   const [lastProcessedTranscript, setLastProcessedTranscript] = useState('');
 
+  const prevIsRecordingRef = useRef(isRecording);
   useEffect(() => {
-    if (isRecording) {
+    if (isRecording && !prevIsRecordingRef.current) {
       setInitialInput(input);
     }
+    prevIsRecordingRef.current = isRecording;
   }, [isRecording, input]);
 
   useEffect(() => {

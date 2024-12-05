@@ -16,7 +16,6 @@ interface BlockMessagesProps {
 
 function PureBlockMessages({
   chatId,
-  block,
   setBlock,
   isLoading,
   votes,
@@ -35,7 +34,6 @@ function PureBlockMessages({
           chatId={chatId}
           key={message.id}
           message={message}
-          block={block}
           setBlock={setBlock}
           isLoading={isLoading && index === messages.length - 1}
           vote={

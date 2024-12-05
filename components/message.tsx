@@ -19,14 +19,12 @@ import equal from 'fast-deep-equal';
 const PurePreviewMessage = ({
   chatId,
   message,
-  block,
   setBlock,
   vote,
   isLoading,
 }: {
   chatId: string;
   message: Message;
-  block: UIBlock;
   setBlock: Dispatch<SetStateAction<UIBlock>>;
   vote: Vote | undefined;
   isLoading: boolean;
@@ -72,21 +70,18 @@ const PurePreviewMessage = ({
                         <DocumentToolResult
                           type="create"
                           result={result}
-                          block={block}
                           setBlock={setBlock}
                         />
                       ) : toolName === 'updateDocument' ? (
                         <DocumentToolResult
                           type="update"
                           result={result}
-                          block={block}
                           setBlock={setBlock}
                         />
                       ) : toolName === 'requestSuggestions' ? (
                         <DocumentToolResult
                           type="request-suggestions"
                           result={result}
-                          block={block}
                           setBlock={setBlock}
                         />
                       ) : (

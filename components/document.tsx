@@ -24,7 +24,6 @@ const getActionText = (
 interface DocumentToolResultProps {
   type: 'create' | 'update' | 'request-suggestions';
   result: { id: string; title: string };
-  block: UIBlock;
   setBlock: (value: SetStateAction<UIBlock>) => void;
 }
 

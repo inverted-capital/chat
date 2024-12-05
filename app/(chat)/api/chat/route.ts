@@ -363,7 +363,7 @@ export async function POST(request: Request) {
         }
       }
       track('chat_completed', {
-        duration: Date.now() - start,
+        duration: getDurationCategory(Date.now() - start),
       });
       streamingData.close();
     },
@@ -407,4 +407,17 @@ export async function DELETE(request: Request) {
       status: 500,
     });
   }
+}
+
+function getDurationCategory(duration: number) {
+  if (duration < 2000) {
+    return 2000;
+  } else if (duration < 5000) {
+    return 5000;
+  } else if (duration < 15000) {
+    return 15000;
+  } else if (duration < 30000) {
+    return 30000;
+  }
+  return duration;
 }
