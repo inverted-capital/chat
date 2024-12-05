@@ -1,9 +1,9 @@
-import type { Message } from 'ai';
+import type { ChatRequestOptions, Message } from 'ai';
 import { PreviewMessage, ThinkingMessage } from './message';
 import { useScrollToBottom } from './use-scroll-to-bottom';
 import { Overview } from './overview';
 import type { UIBlock } from './block';
-import { type Dispatch, memo, type SetStateAction } from 'react';
+import { type Dispatch, type SetStateAction, memo } from 'react';
 import type { Vote } from '@/lib/db/schema';
 
 interface MessagesProps {
@@ -13,6 +13,12 @@ interface MessagesProps {
   isLoading: boolean;
   votes: Array<Vote> | undefined;
   messages: Array<Message>;
+  setMessages: (
+    messages: Message[] | ((messages: Message[]) => Message[]),
+  ) => void;
+  reload: (
+    chatRequestOptions?: ChatRequestOptions,
+  ) => Promise<string | null | undefined>;
 }
 
 function PureMessages({
@@ -22,6 +28,8 @@ function PureMessages({
   isLoading,
   votes,
   messages,
+  setMessages,
+  reload,
 }: MessagesProps) {
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
@@ -38,7 +46,6 @@ function PureMessages({
           key={message.id}
           chatId={chatId}
           message={message}
-          block={block}
           setBlock={setBlock}
           isLoading={isLoading && messages.length - 1 === index}
           vote={
@@ -46,6 +53,8 @@ function PureMessages({
               ? votes.find((vote) => vote.messageId === message.id)
               : undefined
           }
+          setMessages={setMessages}
+          reload={reload}
         />
       ))}
 

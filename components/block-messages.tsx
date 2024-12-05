@@ -1,9 +1,10 @@
-import { type Dispatch, memo, type SetStateAction } from 'react';
+import { memo } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import type { UIBlock } from './block';
 import { PreviewMessage } from './message';
 import { useScrollToBottom } from './use-scroll-to-bottom';
 import type { Vote } from '@/lib/db/schema';
-import type { Message } from 'ai';
+import type { ChatRequestOptions, Message } from 'ai';
 
 interface BlockMessagesProps {
   chatId: string;
@@ -12,6 +13,12 @@ interface BlockMessagesProps {
   isLoading: boolean;
   votes: Array<Vote> | undefined;
   messages: Array<Message>;
+  setMessages: (
+    messages: Message[] | ((messages: Message[]) => Message[]),
+  ) => void;
+  reload: (
+    chatRequestOptions?: ChatRequestOptions,
+  ) => Promise<string | null | undefined>;
 }
 
 function PureBlockMessages({
@@ -20,6 +27,8 @@ function PureBlockMessages({
   isLoading,
   votes,
   messages,
+  setMessages,
+  reload,
 }: BlockMessagesProps) {
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
@@ -41,6 +50,8 @@ function PureBlockMessages({
               ? votes.find((vote) => vote.messageId === message.id)
               : undefined
           }
+          setMessages={setMessages}
+          reload={reload}
         />
       ))}
 
