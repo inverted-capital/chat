@@ -28,6 +28,7 @@ const PurePreviewMessage = ({
   isLoading,
   setMessages,
   reload,
+  isReadonly,
 }: {
   chatId: string;
   message: Message;
@@ -40,6 +41,7 @@ const PurePreviewMessage = ({
   reload: (
     chatRequestOptions?: ChatRequestOptions,
   ) => Promise<string | null | undefined>;
+  isReadonly: boolean;
 }) => {
   const [mode, setMode] = useState<'view' | 'edit'>('view');
 
@@ -79,7 +81,7 @@ const PurePreviewMessage = ({
 
           {message.content && mode === 'view' && (
             <div className="flex flex-row gap-2 items-start">
-              {message.role === 'user' && (
+              {message.role === 'user' && !isReadonly && (
                 <Button
                   variant="ghost"
                   className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
@@ -134,18 +136,21 @@ const PurePreviewMessage = ({
                           type="create"
                           result={result}
                           setBlock={setBlock}
+                          isReadonly={isReadonly}
                         />
                       ) : toolName === 'updateDocument' ? (
                         <DocumentToolResult
                           type="update"
                           result={result}
                           setBlock={setBlock}
+                          isReadonly={isReadonly}
                         />
                       ) : toolName === 'requestSuggestions' ? (
                         <DocumentToolResult
                           type="request-suggestions"
                           result={result}
                           setBlock={setBlock}
+                          isReadonly={isReadonly}
                         />
                       ) : (
                         <pre>{JSON.stringify(result, null, 2)}</pre>
@@ -167,18 +172,21 @@ const PurePreviewMessage = ({
                         type="create"
                         args={args}
                         setBlock={setBlock}
+                        isReadonly={isReadonly}
                       />
                     ) : toolName === 'updateDocument' ? (
                       <DocumentToolCall
                         type="update"
                         args={args}
                         setBlock={setBlock}
+                        isReadonly={isReadonly}
                       />
                     ) : toolName === 'requestSuggestions' ? (
                       <DocumentToolCall
                         type="request-suggestions"
                         args={args}
                         setBlock={setBlock}
+                        isReadonly={isReadonly}
                       />
                     ) : null}
                   </div>
@@ -187,13 +195,15 @@ const PurePreviewMessage = ({
             </div>
           )}
 
-          <MessageActions
-            key={`action-${message.id}`}
-            chatId={chatId}
-            message={message}
-            vote={vote}
-            isLoading={isLoading}
-          />
+          {!isReadonly && (
+            <MessageActions
+              key={`action-${message.id}`}
+              chatId={chatId}
+              message={message}
+              vote={vote}
+              isLoading={isLoading}
+            />
+          )}
         </div>
       </div>
     </motion.div>

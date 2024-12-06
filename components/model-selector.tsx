@@ -14,7 +14,7 @@ import {
 import { models } from '@/lib/ai/models';
 import { cn } from '@/lib/utils';
 
-import { SettingsIcon, CheckCirclFillIcon, ChevronDownIcon } from './icons';
+import { SettingsIcon, CheckCircleFillIcon, ChevronDownIcon } from './icons';
 
 export function ModelSelector({
   selectedModelId,
@@ -26,7 +26,7 @@ export function ModelSelector({
   const [optimisticModelId, setOptimisticModelId] =
     useOptimistic(selectedModelId);
 
-  const selectModel = useMemo(
+  const selectedModel = useMemo(
     () => models.find((model) => model.id === optimisticModelId),
     [optimisticModelId],
   );
@@ -41,7 +41,7 @@ export function ModelSelector({
         )}
       >
         <Button variant="outline" className="md:px-2 md:h-[34px]">
-          {selectModel?.label}
+          {selectedModel?.label}
           <ChevronDownIcon />
         </Button>
       </DropdownMenuTrigger>
@@ -69,7 +69,7 @@ export function ModelSelector({
               )}
             </div>
             <div className="text-primary dark:text-primary-foreground opacity-0 group-data-[active=true]/item:opacity-100">
-              <CheckCirclFillIcon />
+              <CheckCircleFillIcon />
             </div>
           </DropdownMenuItem>
         ))}
