@@ -80,20 +80,16 @@ const PurePreviewMessage = ({
           {message.content && mode === 'view' && (
             <div className="flex flex-row gap-2 items-start">
               {message.role === 'user' && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
-                      onClick={() => {
-                        setMode('edit');
-                      }}
-                    >
-                      <PencilEditIcon />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Edit message</TooltipContent>
-                </Tooltip>
+                <Button
+                  variant="ghost"
+                  className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
+                  onClick={() => {
+                    setMode('edit');
+                  }}
+                  title="Edit message"
+                >
+                  <PencilEditIcon />
+                </Button>
               )}
 
               <div
