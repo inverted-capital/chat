@@ -108,7 +108,6 @@ function PureMultimodalInput({
     adjustHeight();
   };
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadQueue, setUploadQueue] = useState<Array<string>>([]);
 
   const submitForm = useCallback(() => {
@@ -199,7 +198,6 @@ function PureMultimodalInput({
       <input
         type="file"
         className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
-        ref={fileInputRef}
         multiple
         onChange={handleFileChange}
         tabIndex={-1}
@@ -277,7 +275,7 @@ function PureMultimodalInput({
         className="rounded-full p-1.5 h-fit absolute bottom-2 right-11 m-0.5 dark:border-zinc-700"
         onClick={(event) => {
           event.preventDefault();
-          fileInputRef.current?.click();
+          console.log('Uploading file');
         }}
         variant="outline"
         disabled={isLoading}

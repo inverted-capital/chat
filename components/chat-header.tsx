@@ -65,21 +65,6 @@ function PureChatHeader({
           className="order-1 md:order-3"
         />
       )}
-
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant="outline"
-            className="order-3 md:order-3 md:px-2 px-2 md:h-fit ml-auto"
-            onClick={() => {
-              // Implement the logic to show the document editor/stateboard/artifact area
-            }}
-          >
-            <SettingsIcon />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>Open Chat Controls</TooltipContent>
-      </Tooltip>
     </header>
   );
 }
