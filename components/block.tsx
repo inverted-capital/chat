@@ -51,12 +51,21 @@ type SerializableContent =
   | { [key: string]: SerializableContent }
   | SerializableContent[];
 
-type WidgetContent = Uint8Array | SerializableContent;
+type WidgetContent =
+  | string
+  | { [key: string]: SerializableContent }
+  | SerializableContent[]
+  | Uint8Array;
 
 export interface WidgetInterface {
   /**
    * The main view of the widget.
    * Content can be strings, numbers, booleans, null, Uint8Array, objects, or arrays thereof.
+   * @param params - The parameters object containing content, status and optional saveContent function
+   * @param params.content - The content to render, can be various types
+   * @param params.status - Current status of the widget ('streaming' or 'idle')
+   * @param params.saveContent - Optional function to save updated content
+   * @returns JSX Element representing the main widget view
    */
   renderMainView: (params: {
     content: WidgetContent;
