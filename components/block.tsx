@@ -43,6 +43,45 @@ export interface UIBlock {
   };
 }
 
+type SerializableContent =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: SerializableContent }
+  | SerializableContent[];
+
+type WidgetContent = Uint8Array | SerializableContent;
+
+export interface WidgetInterface {
+  /**
+   * The main view of the widget.
+   * Content can be strings, numbers, booleans, null, Uint8Array, objects, or arrays thereof.
+   */
+  renderMainView: (params: {
+    content: WidgetContent;
+    status: 'streaming' | 'idle';
+    saveContent?: (updatedContent: WidgetContent) => Promise<void>;
+  }) => JSX.Element;
+
+  /**
+   * An optional skeleton (loading) view.
+   */
+  renderSkeleton?: () => JSX.Element;
+
+  /**
+   * An optional diff view that can handle multiple content types and versioning.
+   * Includes versionId (string) and a boolean isLatest indicator.
+   */
+  renderDiffView?: (params: {
+    oldContent: WidgetContent;
+    oldVersionId: string;
+    newContent: WidgetContent;
+    newVersionId: string;
+    latestVersionId: string;
+  }) => JSX.Element;
+}
+
 function PureBlock({
   chatId,
   input,
