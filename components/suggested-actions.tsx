@@ -21,9 +21,9 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
       action: 'Show customers due for collection tomorrow',
     },
     {
-      title: 'Search for customers',
-      label: 'except inactive',
-      action: 'Search for customers except those that are inactive',
+      title: 'Help me write code to',
+      label: 'demonstrate the djikstra algorithm!',
+      action: 'Help me write code to demonstrate the djikstra algorithm!',
     },
   ];
 

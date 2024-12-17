@@ -18,20 +18,26 @@ import useSWR, { useSWRConfig } from 'swr';
 import { useDebounceCallback, useWindowSize } from 'usehooks-ts';
 
 import type { Document, Suggestion, Vote } from '@/lib/db/schema';
-import { fetcher } from '@/lib/utils';
+import { cn, fetcher } from '@/lib/utils';
 
+import { DiffView } from './diffview';
+import { DocumentSkeleton } from './document-skeleton';
+import { Editor } from './editor';
 import { MultimodalInput } from './multimodal-input';
+import { Toolbar } from './toolbar';
 import { VersionFooter } from './version-footer';
 import { BlockActions } from './block-actions';
 import { BlockCloseButton } from './block-close-button';
 import { BlockMessages } from './block-messages';
-import { BlockContent } from './block-content';
+import { CodeEditor } from './code-editor';
+import { Console } from './console';
 
-// TODO change to include a reference to the widget to load as well
+export type BlockKind = 'text' | 'code';
 
 export interface UIBlock {
   title: string;
   documentId: string;
+  kind: BlockKind;
   content: string;
   isVisible: boolean;
   status: 'streaming' | 'idle';
@@ -41,6 +47,11 @@ export interface UIBlock {
     width: number;
     height: number;
   };
+}
+export interface ConsoleOutput {
+  id: string;
+  status: 'in_progress' | 'completed' | 'failed';
+  content: string | null;
 }
 
 type SerializableContent =
@@ -160,6 +171,9 @@ function PureBlock({
   const [mode, setMode] = useState<'edit' | 'diff'>('edit');
   const [document, setDocument] = useState<Document | null>(null);
   const [currentVersionIndex, setCurrentVersionIndex] = useState(-1);
+  const [consoleOutputs, setConsoleOutputs] = useState<Array<ConsoleOutput>>(
+    [],
+  );
 
   useEffect(() => {
     if (documents && documents.length > 0) {
@@ -205,6 +219,7 @@ function PureBlock({
               body: JSON.stringify({
                 title: block.title,
                 content: updatedContent,
+                kind: block.kind,
               }),
             });
 
@@ -274,6 +289,8 @@ function PureBlock({
       }
     }
   };
+
+  const [isToolbarVisible, setIsToolbarVisible] = useState(false);
 
   /*
    * NOTE: if there are no documents, or if
@@ -363,7 +380,7 @@ function PureBlock({
       )}
 
       <motion.div
-        className="fixed dark:bg-muted bg-background h-dvh flex flex-col shadow-xl overflow-y-scroll"
+        className="fixed dark:bg-muted bg-background h-dvh flex flex-col overflow-y-scroll"
         initial={
           isMobile
             ? {
@@ -460,25 +477,79 @@ function PureBlock({
             handleVersionChange={handleVersionChange}
             isCurrentVersion={isCurrentVersion}
             mode={mode}
+            setConsoleOutputs={setConsoleOutputs}
           />
         </div>
 
-        <div className="prose dark:prose-invert dark:bg-muted bg-background h-full overflow-y-scroll px-4 py-8 md:p-20 !max-w-full pb-40 items-center">
-          <div className="flex flex-row max-w-[600px] mx-auto">
-            <BlockContent
-              isDocumentsFetching={isDocumentsFetching}
-              block={block}
-              mode={mode}
-              isCurrentVersion={isCurrentVersion}
-              getDocumentContentById={getDocumentContentById}
-              currentVersionIndex={currentVersionIndex}
-              saveContent={saveContent}
-              suggestions={suggestions}
-              append={append}
-              isLoading={isLoading}
-              stop={stop}
-              setMessages={setMessages}
-            />
+        <div
+          className={cn(
+            'prose dark:prose-invert dark:bg-muted bg-background h-full overflow-y-scroll !max-w-full pb-40 items-center',
+            {
+              'py-2 px-2': block.kind === 'code',
+              'py-8 md:p-20 px-4': block.kind === 'text',
+            },
+          )}
+        >
+          <div
+            className={cn('flex flex-row', {
+              '': block.kind === 'code',
+              'mx-auto max-w-[600px]': block.kind === 'text',
+            })}
+          >
+            {isDocumentsFetching && !block.content ? (
+              <DocumentSkeleton />
+            ) : block.kind === 'code' ? (
+              <CodeEditor
+                content={
+                  isCurrentVersion
+                    ? block.content
+                    : getDocumentContentById(currentVersionIndex)
+                }
+                isCurrentVersion={isCurrentVersion}
+                currentVersionIndex={currentVersionIndex}
+                suggestions={suggestions ?? []}
+                status={block.status}
+                saveContent={saveContent}
+              />
+            ) : block.kind === 'text' ? (
+              mode === 'edit' ? (
+                <Editor
+                  content={
+                    isCurrentVersion
+                      ? block.content
+                      : getDocumentContentById(currentVersionIndex)
+                  }
+                  isCurrentVersion={isCurrentVersion}
+                  currentVersionIndex={currentVersionIndex}
+                  status={block.status}
+                  saveContent={saveContent}
+                  suggestions={isCurrentVersion ? (suggestions ?? []) : []}
+                />
+              ) : (
+                <DiffView
+                  oldContent={getDocumentContentById(currentVersionIndex - 1)}
+                  newContent={getDocumentContentById(currentVersionIndex)}
+                />
+              )
+            ) : null}
+
+            {suggestions ? (
+              <div className="md:hidden h-dvh w-12 shrink-0" />
+            ) : null}
+
+            <AnimatePresence>
+              {isCurrentVersion && (
+                <Toolbar
+                  isToolbarVisible={isToolbarVisible}
+                  setIsToolbarVisible={setIsToolbarVisible}
+                  append={append}
+                  isLoading={isLoading}
+                  stop={stop}
+                  setMessages={setMessages}
+                  blockKind={block.kind}
+                />
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
@@ -491,6 +562,13 @@ function PureBlock({
               handleVersionChange={handleVersionChange}
             />
           )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          <Console
+            consoleOutputs={consoleOutputs}
+            setConsoleOutputs={setConsoleOutputs}
+          />
         </AnimatePresence>
       </motion.div>
     </motion.div>

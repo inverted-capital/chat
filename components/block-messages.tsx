@@ -1,5 +1,4 @@
-import { memo } from 'react';
-import type { Dispatch, SetStateAction } from 'react';
+import { type Dispatch, memo, type SetStateAction } from 'react';
 import type { UIBlock } from './block';
 import { PreviewMessage } from './message';
 import { useScrollToBottom } from './use-scroll-to-bottom';
