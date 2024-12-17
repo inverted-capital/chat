@@ -77,6 +77,7 @@ export function BlockContent({
             isLoading={isLoading}
             stop={stop}
             setMessages={setMessages}
+            blockKind={block.kind}
           />
         )}
       </AnimatePresence>
