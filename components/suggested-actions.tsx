@@ -22,8 +22,8 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
     },
     {
       title: 'Help me write code to',
-      label: 'demonstrate the djikstra algorithm!',
-      action: 'Help me write code to demonstrate the djikstra algorithm!',
+      label: 'demonstrate the djikstra algorithm',
+      action: 'Help me write code to demonstrate the djikstra algorithm',
     },
   ];
 
