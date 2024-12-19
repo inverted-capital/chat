@@ -23,7 +23,13 @@ import { useLocalStorage, useWindowSize } from 'usehooks-ts';
 
 import { sanitizeUIMessages } from '@/lib/utils';
 
-import { ArrowUpIcon, ImageIcon, StopIcon } from './icons';
+import {
+  ArrowUpIcon,
+  ImageIcon,
+  PaperclipIcon,
+  SettingsIcon,
+  StopIcon,
+} from './icons';
 import { PreviewAttachment } from './preview-attachment';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
@@ -250,14 +256,14 @@ function PureMultimodalInput({
       <div className="absolute bottom-0 p-2 w-fit flex flex-row justify-start">
         <AttachmentsButton isLoading={isLoading} />
       </div>
-      <Voice
-        input={input}
-        onTranscription={(text: string) => {
-          setInput(text);
-          adjustHeight();
-        }}
-      />
-      <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end">
+      <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end gap-2">
+        <Voice
+          input={input}
+          onTranscription={(text: string) => {
+            setInput(text);
+            adjustHeight();
+          }}
+        />
         {isLoading ? (
           <StopButton stop={stop} setMessages={setMessages} />
         ) : (
@@ -295,7 +301,7 @@ function PureAttachmentsButton({ isLoading }: { isLoading: boolean }) {
       disabled={isLoading}
       variant="ghost"
     >
-      <ImageIcon size={14} />
+      <SettingsIcon size={14} />
     </Button>
   );
 }

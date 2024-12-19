@@ -145,7 +145,7 @@ export function Voice({ input, onTranscription }: VoiceProps) {
   return (
     <Button
       className={cx(
-        'rounded-full p-1.5 h-fit absolute bottom-2 right-20 m-0.5 dark:border-zinc-700',
+        'rounded-full p-1.5 h-fit border dark:border-zinc-600',
         isRecording &&
           'animate-pulse shadow-[0_0_8px_rgba(255,0,0,0.7)] border-red-500/70',
       )}
