@@ -34,7 +34,9 @@ import {
 import { generateTitleFromUserMessage } from '../../actions';
 import { track } from '@vercel/analytics/server';
 
-export const maxDuration = 60;
+// pro is max 300 seconds, free is max 60 seconds.  o1 Reasoning needs several
+// minutes to complete.
+export const maxDuration = 300;
 
 type AllowedTools =
   | 'createDocument'

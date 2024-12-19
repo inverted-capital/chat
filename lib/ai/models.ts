@@ -21,15 +21,15 @@ export const models: Array<Model> = [
     description: 'For complex, multi-step tasks',
   },
   {
-    id: 'gpt-o1-mini',
+    id: 'o1-mini',
     label: 'GPT o1 mini',
     apiIdentifier: 'o1-mini',
     description: 'reasoning, minified',
   },
   {
-    id: 'gpt-o1-preview',
-    label: 'GPT o1 preview',
-    apiIdentifier: 'o1-preview',
+    id: 'o1',
+    label: 'GPT o1',
+    apiIdentifier: 'o1',
     description: 'reasoning, full',
   },
 ] as const;

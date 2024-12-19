@@ -2,18 +2,14 @@ import type { Experimental_LanguageModelV1Middleware } from 'ai';
 
 export const customMiddleware: Experimental_LanguageModelV1Middleware = {
   transformParams({ params }) {
-    let { mode } = params;
-    if ('tools' in mode) {
-      const { tools, ...rest } = mode;
-      mode = rest;
-    }
-
-    const prompt = params.prompt.filter((message) => {
-      if (message.role === 'system') {
-        return false;
-      }
-      return true;
+    console.dir(params);
+    const prompt = params.prompt.map((message) => {
+      // TODO check 'system' role to 'developer'
+      // if (message.role === 'system') {
+      //   message.role = 'developer';
+      // }
+      return message;
     });
-    return Promise.resolve({ ...params, mode, prompt });
+    return Promise.resolve({ ...params, prompt });
   },
 };
